@@ -1,130 +1,479 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>CV Interactif - Benjamin jr Hénocq</title>
-<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
-<style>
-  *{margin:0; padding:0; box-sizing:border-box;}
-  body{font-family:'Montserrat', sans-serif; line-height:1.6; color:white; scroll-behavior:smooth; background:linear-gradient(135deg, #50c878, #8a2be2, #ff00ff);}
-  a{text-decoration:none; color:inherit;}
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Mes Compétences - Portfolio</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            box-sizing: border-box;
+        }
+        
+        .skill-card {
+            transition: all 0.3s ease;
+            transform: translateY(0);
+        }
+        
+        .skill-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+        }
+        
+        .skill-details {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s ease-in-out;
+        }
+        
+        .skill-details.active {
+            max-height: 500px;
+        }
+        
+        .gradient-bg {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        
+        .video-container {
+            position: relative;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 25px 50px rgba(0,0,0,0.2);
+        }
+        
+        .floating-animation {
+            animation: float 6s ease-in-out infinite;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+        }
+        
+        .pulse-animation {
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
 
-  /* Navigation flottante */
-  nav{
-    position:fixed; top:0; width:100%; background:rgba(0,0,0,0.6); 
-    padding:12px 0; z-index:1000; display:flex; justify-content:center; gap:30px; 
-    font-weight:600;
-  }
-  nav a{color:white; transition:0.3s; font-size:1.1rem;}
-  nav a:hover{color:#dcd3ff;}
+        video {
+            border-radius: 20px;
+            display:block;
+            object-fit:cover;
+        }
 
-  /* Header */
-  header{
-    height:100vh; display:flex; justify-content:center; align-items:center; flex-direction:column; 
-    text-align:center; position:relative; overflow:hidden;
-  }
-  header video{position:absolute; top:0; left:0; width:100%; height:100%; object-fit:cover; z-index:-1; opacity:0.6;}
-  header h1{font-size:4rem; margin-bottom:1rem;}
-  header p{font-size:1.5rem; margin-bottom:2rem;}
-  header button{
-    padding:1.2rem 2.5rem; font-size:1.2rem; border:none; background:#9b59b6; color:white; cursor:pointer; border-radius:10px; transition:0.3s;
-  }
-  header button:hover{background:#8e44ad;}
-  header button:active{background:#732d91;}
+        /* Nouveaux effets visuels */
+        .glass-effect {
+            backdrop-filter: blur(10px);
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
 
-  /* Sections */
-  section{padding:100px 20px; max-width:1000px; margin:0 auto;}
-  section h2{text-align:center; font-size:2.5rem; margin-bottom:2rem;}
-  section h2 span.emoji{font-size:2.2rem; color:violet; margin-right:10px;}
+        .shimmer {
+            position: relative;
+            overflow: hidden;
+        }
 
-  .cards{display:flex; flex-wrap:wrap; justify-content:center; gap:25px;}
-  .card{
-    background:rgba(255,255,255,0.1); 
-    padding:25px; border-radius:15px; width:280px; text-align:center; 
-    box-shadow:0 10px 20px rgba(0,0,0,0.3); 
-    transition:0.3s; font-size:1.1rem; backdrop-filter: blur(5px);
-  }
-  .card:hover{transform:translateY(-10px) scale(1.05); box-shadow:0 15px 25px rgba(0,0,0,0.5);}
+        .shimmer::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            animation: shimmer 3s infinite;
+        }
 
-  /* Contact */
-  form{display:flex; flex-direction:column; gap:15px; max-width:500px; margin:0 auto;}
-  input, textarea{padding:12px; border-radius:8px; border:1px solid #ccc; width:100%;}
-  button.submit{background:#9b59b6; color:white; border:none; padding:12px; border-radius:8px; cursor:pointer; transition:0.3s;}
-  button.submit:hover{background:#8e44ad;}
-  button.submit:active{background:#732d91;}
-</style>
+        @keyframes shimmer {
+            0% { left: -100%; }
+            100% { left: 100%; }
+        }
+
+        .animate-shimmer {
+            animation: shimmer-sweep 3s infinite;
+        }
+
+        @keyframes shimmer-sweep {
+            0% { transform: translateX(-100%) skewX(-12deg); }
+            100% { transform: translateX(200%) skewX(-12deg); }
+        }
+
+        .glow-on-hover {
+            transition: all 0.3s ease;
+        }
+
+        .glow-on-hover:hover {
+            box-shadow: 0 0 30px rgba(102, 126, 234, 0.4);
+        }
+
+        .parallax-bg {
+            background-attachment: fixed;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: cover;
+        }
+
+        .text-gradient {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .icon-bounce {
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+            40% { transform: translateY(-10px); }
+            60% { transform: translateY(-5px); }
+        }
+
+        .skill-progress {
+            width: 0;
+            height: 3px;
+            background: linear-gradient(90deg, #667eea, #764ba2);
+            transition: width 1s ease-in-out;
+            border-radius: 2px;
+        }
+
+        .skill-card.active .skill-progress {
+            width: 100%;
+        }
+
+        .floating-elements {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            pointer-events: none;
+        }
+
+        .floating-circle {
+            position: absolute;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+            animation: float-random 8s infinite ease-in-out;
+        }
+
+        @keyframes float-random {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            33% { transform: translateY(-30px) rotate(120deg); }
+            66% { transform: translateY(15px) rotate(240deg); }
+        }
+
+        /* Responsive minor improvements */
+        @media (max-width: 768px) {
+            .text-5xl { font-size: 2rem; }
+            .max-w-4xl { max-width: 95% }
+            .grid.md\:grid-cols-2 { grid-template-columns: 1fr; }
+        }
+    </style>
 </head>
-<body>
+<body class="bg-gray-50 min-h-screen">
+    <!-- Header avec vidéo -->
+    <header class="gradient-bg text-white py-16 px-6 relative overflow-hidden">
+        <!-- Éléments flottants décoratifs -->
+        <div class="floating-elements" aria-hidden="true">
+            <div class="floating-circle w-20 h-20 top-10 left-10" style="animation-delay: 0s;"></div>
+            <div class="floating-circle w-12 h-12 top-32 right-20" style="animation-delay: 2s;"></div>
+            <div class="floating-circle w-16 h-16 bottom-20 left-1/4" style="animation-delay: 4s;"></div>
+            <div class="floating-circle w-8 h-8 top-1/2 right-10" style="animation-delay: 6s;"></div>
+        </div>
+        
+        <div class="max-w-6xl mx-auto text-center relative z-10">
+            <h1 class="text-5xl font-bold mb-4 floating-animation text-white drop-shadow-lg">Mon Portfolio de Compétences</h1>
+            <p class="text-xl mb-8 opacity-90 glass-effect rounded-full px-8 py-3 inline-block">Découvrez mes expertises à travers une expérience interactive</p>
+            
+            <!-- Vidéo Portfolio locale -->
+            <div class="max-w-4xl mx-auto mb-8">
+                <div class="bg-white/10 backdrop-blur-sm rounded-2xl p-6 border border-white/20">
+                    <h3 class="text-2xl font-bold text-white mb-4 text-center">Ma Vidéo Portfolio</h3>
+                    <div class="video-container">
+                        <div style="position: relative; width: 100%; height: 0; padding-bottom: 56.25%; overflow: hidden; border-radius: 20px;">
+                            <video 
+                                style="position:absolute; top: 0; left: 0; width: 100%; height: 100%; border-radius: 20px; object-fit:cover;" 
+                                src="ma_video.mp4" 
+                                autoplay muted loop playsinline controls
+                                title="Portfolio Benjamin Henocq">
+                                Votre navigateur ne supporte pas la vidéo.
+                            </video>
+                        </div>
+                    </div>
+                    <!-- Ligne supprimée : "Welcome bienvenue" par Benjamin Henocq -->
+                </div>
+            </div>
+        </div>
+    </header>
 
-<!-- Navigation flottante -->
-<nav>
-  <a href="#skills">Arts</a>
-  <a href="#experience">Restauration</a>
-  <a href="#tourisme">Tourisme</a>
-  <a href="#bienetre">Bien-être</a>
-  <a href="#contact">Contact</a>
-</nav>
+    <!-- Section des compétences -->
+    <main class="max-w-6xl mx-auto px-6 py-16">
+        <div class="text-center mb-12">
+            <h2 class="text-4xl font-bold text-gray-800 mb-4">Mes Domaines d'Excellence</h2>
+            <p class="text-xl text-gray-600">Cliquez sur chaque secteur pour découvrir mes compétences en détail</p>
+        </div>
 
-<!-- Header -->
-<header>
-  <video src="video-intro.mp4" autoplay muted loop></video>
-  <h1>Benjamin jr Hénocq</h1>
-  <p>Créer des expériences uniques et mémorables grâce à la créativité et la polyvalence</p>
-  <button onclick="document.getElementById('skills').scrollIntoView({behavior:'smooth'})">
-    Découvrir mon profil
-  </button>
-</header>
+        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <!-- Arts & Création -->
+            <div class="skill-card bg-white rounded-2xl shadow-lg overflow-hidden glow-on-hover shimmer">
+                <button onclick="toggleSkill('arts')" class="w-full p-8 text-left hover:bg-purple-50 transition-colors" aria-expanded="false">
+                    <div class="flex items-center mb-4">
+                        <div class="w-12 h-12 bg-purple-500 rounded-lg flex items-center justify-center mr-4 icon-bounce" aria-hidden="true">
+                            <svg class="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 20 20"><path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z"/></svg>
+                        </div>
+                        <h3 class="text-2xl font-bold text-gray-800">Arts & Création</h3>
+                    </div>
+                    <p class="text-gray-600">Création artistique et conception visuelle</p>
+                    <div class="skill-progress mt-4" aria-hidden="true"></div>
+                </button>
+                
+                <div id="arts-details" class="skill-details px-8 pb-8">
+                    <div class="border-t pt-6">
+                        <h4 class="font-semibold text-lg mb-3 text-purple-600">Compétences détaillées :</h4>
+                        <ul class="space-y-2 text-gray-700">
+                            <li class="flex items-center"><span class="w-2 h-2 bg-purple-500 rounded-full mr-3"></span>Arts appliqués et concours peinture sculpture</li>
+                            <li class="flex items-center"><span class="w-2 h-2 bg-purple-500 rounded-full mr-3"></span>Scénographie et conceptualisation/réalisation de décors</li>
+                            <li class="flex items-center"><span class="w-2 h-2 bg-purple-500 rounded-full mr-3"></span>Collection de mode, coiffure et maquillage</li>
+                            <li class="flex items-center"><span class="w-2 h-2 bg-purple-500 rounded-full mr-3"></span>Organisation complète de défilés</li>
+                            <li class="flex items-center"><span class="w-2 h-2 bg-purple-500 rounded-full mr-3"></span>Illustration stylisme de mode</li>
+                            <li class="flex items-center"><span class="w-2 h-2 bg-purple-500 rounded-full mr-3"></span>Création fabrication de bijoux et accessoires</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
 
-<!-- Sections -->
-<section id="skills">
-  <h2><span class="emoji">🎭</span>Arts & Création</h2>
-  <div class="cards">
-    <div class="card">Arts appliqués & concours peinture sculpture</div>
-    <div class="card">Scénographie & décor</div>
-    <div class="card">Mode, coiffure & maquillage</div>
-    <div class="card">Illustration mode & réalisation bijoux</div>
-    <div class="card">Design digital logos site web</div>
-  </div>
-</section>
+            <!-- Restauration & Hôtellerie -->
+            <div class="skill-card bg-white rounded-2xl shadow-lg overflow-hidden glow-on-hover shimmer">
+                <button onclick="toggleSkill('restauration')" class="w-full p-8 text-left hover:bg-orange-50 transition-colors" aria-expanded="false">
+                    <div class="flex items-center mb-4">
+                        <div class="w-12 h-12 bg-orange-500 rounded-lg flex items-center justify-center mr-4 icon-bounce" style="animation-delay: 0.5s;" aria-hidden="true">
+                            <svg class="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 20 20"><path d="M3 4a1 1 0 011-1h12a1 1 0 011 1v2a1 1 0 01-1 1H4a1 1 0 01-1-1V4zM3 10a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H4a1 1 0 01-1-1v-6zM14 9a1 1 0 00-1 1v6a1 1 0 001 1h2a1 1 0 001-1v-6a1 1 0 00-1-1h-2z"/></svg>
+                        </div>
+                        <h3 class="text-2xl font-bold text-gray-800">Restauration & Hôtellerie</h3>
+                    </div>
+                    <p class="text-gray-600">Excellence culinaire et service haut de gamme</p>
+                    <div class="skill-progress mt-4" aria-hidden="true"></div>
+                </button>
+                
+                <div id="restauration-details" class="skill-details px-8 pb-8">
+                    <div class="border-t pt-6">
+                        <h4 class="font-semibold text-lg mb-3 text-orange-600">Compétences détaillées :</h4>
+                        <ul class="space-y-2 text-gray-700">
+                            <li class="flex items-center"><span class="w-2 h-2 bg-orange-500 rounded-full mr-3"></span>Chef barman HQ</li>
+                            <li class="flex items-center"><span class="w-2 h-2 bg-orange-500 rounded-full mr-3"></span>Gestion bars et petite restauration sur licence 3 et 4</li>
+                            <li class="flex items-center"><span class="w-2 h-2 bg-orange-500 rounded-full mr-3"></span>Décoration et atmosphérisation restaurant et hôtel haut de gamme</li>
+                            <li class="flex items-center"><span class="w-2 h-2 bg-orange-500 rounded-full mr-3"></span>Cuisine nationale et internationale</li>
+                            <li class="flex items-center"><span class="w-2 h-2 bg-orange-500 rounded-full mr-3"></span>Buffets événementiels et ateliers de cuisine solidaire</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
 
-<section id="experience">
-  <h2><span class="emoji">🍸</span>Restauration & Hôtellerie</h2>
-  <div class="cards">
-    <div class="card">Chef barman HQ</div>
-    <div class="card">Gestion de bar & licences 3 et 4</div>
-    <div class="card">Cuisine nationale & internationale</div>
-    <div class="card">Buffets événementiels & ateliers cuisine solidaire</div>
-  </div>
-</section>
+            <!-- Tourisme & International -->
+            <div class="skill-card bg-white rounded-2xl shadow-lg overflow-hidden glow-on-hover shimmer">
+                <button onclick="toggleSkill('tourisme')" class="w-full p-8 text-left hover:bg-blue-50 transition-colors" aria-expanded="false">
+                    <div class="flex items-center mb-4">
+                        <div class="w-12 h-12 bg-blue-500 rounded-lg flex items-center justify-center mr-4 icon-bounce" style="animation-delay: 1s;" aria-hidden="true">
+                            <svg class="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 20 20"><path d="M10.894 2.553a1 1 0 00-1.788 0l-7 14a1 1 0 001.169 1.409l5-1.429A1 1 0 009 15.571V11a1 1 0 112 0v4.571a1 1 0 00.725.962l5 1.428a1 1 0 001.17-1.408l-7-14z"/></svg>
+                        </div>
+                        <h3 class="text-2xl font-bold text-gray-800">Tourisme & International</h3>
+                    </div>
+                    <p class="text-gray-600">Expertise voyage et accueil international</p>
+                    <div class="skill-progress mt-4" aria-hidden="true"></div>
+                </button>
+                
+                <div id="tourisme-details" class="skill-details px-8 pb-8">
+                    <div class="border-t pt-6">
+                        <h4 class="font-semibold text-lg mb-3 text-blue-600">Compétences détaillées :</h4>
+                        <ul class="space-y-2 text-gray-700">
+                            <li class="flex items-center"><span class="w-2 h-2 bg-blue-500 rounded-full mr-3"></span>Forfaitiste vente et animation de circuits touristiques</li>
+                            <li class="flex items-center"><span class="w-2 h-2 bg-blue-500 rounded-full mr-3"></span>Accueil aéroport, Hébergement</li>
+                            <li class="flex items-center"><span class="w-2 h-2 bg-blue-500 rounded-full mr-3"></span>Présentation et promotion des excursions</li>
+                            <li class="flex items-center"><span class="w-2 h-2 bg-blue-500 rounded-full mr-3"></span>Gestion réservation, encaissement, vouchers</li>
+                            <li class="flex items-center"><span class="w-2 h-2 bg-blue-500 rounded-full mr-3"></span>Accompagnement et animation micro sur les circuits</li>
+                            <li class="flex items-center"><span class="w-2 h-2 bg-blue-500 rounded-full mr-3"></span>Suivi et gestion litige sur séjour</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
 
-<section id="tourisme">
-  <h2><span class="emoji">✈️</span>Tourisme & International</h2>
-  <div class="cards">
-    <div class="card">
-      Forfaitiste vente et animation de circuits touristiques : accueil clientèle, présentation et promotion des excursions, gestion réservations et encaissements, accompagnement et animation micro sur les circuits, accueil aéroport et suivi des séjours.
-    </div>
-  </div>
-</section>
+            <!-- Bien-être & Développement Personnel -->
+            <div class="skill-card bg-white rounded-2xl shadow-lg overflow-hidden glow-on-hover shimmer">
+                <button onclick="toggleSkill('bienetre')" class="w-full p-8 text-left hover:bg-green-50 transition-colors" aria-expanded="false">
+                    <div class="flex items-center mb-4">
+                        <div class="w-12 h-12 bg-green-500 rounded-lg flex items-center justify-center mr-4 icon-bounce" style="animation-delay: 1.5s;" aria-hidden="true">
+                            <svg class="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z"/></svg>
+                        </div>
+                        <h3 class="text-2xl font-bold text-gray-800">Bien-être & Développement Personnel</h3>
+                    </div>
+                    <p class="text-gray-600">Accompagnement holistique et conseil en image</p>
+                    <div class="skill-progress mt-4" aria-hidden="true"></div>
+                </button>
+                
+                <div id="bienetre-details" class="skill-details px-8 pb-8">
+                    <div class="border-t pt-6">
+                        <h4 class="font-semibold text-lg mb-3 text-green-600">Compétences détaillées :</h4>
+                        <ul class="space-y-2 text-gray-700">
+                            <li class="flex items-center"><span class="w-2 h-2 bg-green-500 rounded-full mr-3"></span>Sophro-relaxation et massages</li>
+                            <li class="flex items-center"><span class="w-2 h-2 bg-green-500 rounded-full mr-3"></span>Conseil en image et morpho stylisme (personnel et professionnel)</li>
+                            <li class="flex items-center"><span class="w-2 h-2 bg-green-500 rounded-full mr-3"></span>Ateliers herboristerie et lithothérapie</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
 
-<section id="bienetre">
-  <h2><span class="emoji">🧘</span>Bien-être & Développement personnel</h2>
-  <div class="cards">
-    <div class="card">Sophro-relaxation & massages</div>
-    <div class="card">Conseil en image & morpho-stylisme</div>
-    <div class="card">Ateliers herboristerie & lithothérapie</div>
-  </div>
-</section>
+            <!-- Expériences Internationales -->
+            <div class="skill-card bg-white rounded-2xl shadow-lg overflow-hidden glow-on-hover shimmer">
+                <button onclick="toggleSkill('international')" class="w-full p-8 text-left hover:bg-indigo-50 transition-colors" aria-expanded="false">
+                    <div class="flex items-center mb-4">
+                        <div class="w-12 h-12 bg-indigo-500 rounded-lg flex items-center justify-center mr-4 icon-bounce" style="animation-delay: 2s;" aria-hidden="true">
+                            <svg class="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM4.332 8.027a6.012 6.012 0 011.912-2.706C6.512 5.73 6.974 6 7.5 6A1.5 1.5 0 019 7.5V8a2 2 0 004 0 2 2 0 011.523-1.943A5.977 5.977 0 0116 10c0 .34-.028.675-.083 1H15a2 2 0 00-2 2v2.197A5.973 5.973 0 0110 16v-2a2 2 0 00-2-2 2 2 0 01-2-2 2 2 0 00-1.668-1.973z"/></svg>
+                        </div>
+                        <h3 class="text-2xl font-bold text-gray-800">Expériences Internationales</h3>
+                    </div>
+                    <p class="text-gray-600">Expertise multiculturelle et événementiel</p>
+                    <div class="skill-progress mt-4" aria-hidden="true"></div>
+                </button>
+                
+                <div id="international-details" class="skill-details px-8 pb-8">
+                    <div class="border-t pt-6">
+                        <h4 class="font-semibold text-lg mb-3 text-indigo-600">Compétences détaillées :</h4>
+                        <ul class="space-y-2 text-gray-700">
+                            <li class="flex items-center"><span class="w-2 h-2 bg-indigo-500 rounded-full mr-3"></span>Décorateur agenceur dans boutique import export de meubles à Washington DC</li>
+                            <li class="flex items-center"><span class="w-2 h-2 bg-indigo-500 rounded-full mr-3"></span>Chef barman et organisateur événementiel en Grèce, Espagne, Maroc et Turquie</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
 
-<section id="contact">
-  <h2>Contact</h2>
-  <form action="https://formspree.io/f/xqayedrr" method="POST">
-    <input type="text" name="name" placeholder="Nom" required>
-    <input type="email" name="email" placeholder="Email" required>
-    <textarea name="message" placeholder="Message" rows="5" required></textarea>
-    <button type="submit" class="submit">Envoyer</button>
-  </form>
-</section>
+        <!-- CONTACT SECTION (Formspree intégré) -->
+        <section id="contact" class="mt-12 w-full">
+            <div class="max-w-4xl mx-auto bg-white rounded-2xl p-8 shadow-lg glass-effect">
+                <h3 class="text-2xl font-bold mb-4 text-gray-800">Contactez-moi</h3>
+                <p class="text-gray-600 mb-4">Envoyez-moi un message rapide — je vous réponds dès que possible.</p>
 
+                <form id="contactForm" action="https://formspree.io/f/xqayedrr" method="POST" class="space-y-4">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <input type="text" name="name" placeholder="Nom" required class="p-3 rounded-md border"/>
+                        <input type="email" name="email" placeholder="Email" required class="p-3 rounded-md border"/>
+                    </div>
+                    <textarea name="message" placeholder="Votre message" rows="5" required class="p-3 rounded-md border w-full"></textarea>
+                    <div class="flex items-center gap-4">
+                        <button type="submit" class="inline-block bg-purple-600 text-white px-6 py-3 rounded-full font-semibold hover:bg-purple-700 transition">Envoyer</button>
+                        <p id="formMessage" style="display:none; margin:0; font-weight:600;"></p>
+                    </div>
+                </form>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="gradient-bg text-white py-12 px-6 mt-16">
+        <div class="max-w-6xl mx-auto text-center">
+            <h3 class="text-2xl font-bold mb-4">Prêt à collaborer ?</h3>
+            <p class="text-lg mb-6 opacity-90">Contactez-moi pour discuter de vos projets</p>
+            <a href="mailto:benjamin.jr.henocq@gmail.com?subject=Opportunité professionnelle - Portfolio&body=Bonjour Benjamin,%0D%0A%0D%0AJ'ai consulté votre portfolio de compétences et j'aimerais discuter d'une opportunité professionnelle avec vous.%0D%0A%0D%0ACordialement," class="inline-block bg-white text-purple-600 px-8 py-3 rounded-full font-semibold hover:bg-gray-100 transition-all duration-300 transform hover:scale-105 hover:shadow-2xl shimmer">
+                Me contacter
+            </a>
+        </div>
+    </footer>
+
+    <script>
+        /* ----- toggleSkill + animations (ton script d'origine) ----- */
+        function toggleSkill(skillId) {
+            const details = document.getElementById(skillId + '-details');
+            if (!details) return;
+            const allDetails = document.querySelectorAll('.skill-details');
+            const allCards = document.querySelectorAll('.skill-card');
+            const currentCard = details.closest('.skill-card');
+            
+            // Fermer tous les autres détails et retirer la classe active
+            allDetails.forEach(detail => {
+                if (detail.id !== skillId + '-details') {
+                    detail.classList.remove('active');
+                }
+            });
+            
+            allCards.forEach(card => {
+                card.classList.remove('active');
+            });
+            
+            // Basculer le détail cliqué et ajouter la classe active
+            details.classList.toggle('active');
+            if (details.classList.contains('active')) {
+                currentCard.classList.add('active');
+            }
+        }
+
+        // Animation au scroll
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        // Observer toutes les cartes de compétences
+        document.querySelectorAll('.skill-card').forEach(card => {
+            card.style.opacity = '0';
+            card.style.transform = 'translateY(30px)';
+            card.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+            observer.observe(card);
+        });
+
+        /* ----- Formspree contact handling (AJAX) ----- */
+        (function() {
+            const form = document.getElementById('contactForm');
+            const msg  = document.getElementById('formMessage');
+            if (!form) return;
+
+            form.addEventListener('submit', async function(e) {
+                e.preventDefault();
+                msg.style.display = 'none';
+                // Collecte des données
+                const data = new FormData(form);
+
+                try {
+                    const res = await fetch(form.action, {
+                        method: form.method,
+                        body: data,
+                        headers: { 'Accept': 'application/json' }
+                    });
+
+                    if (res.ok) {
+                        msg.style.color = 'limegreen';
+                        msg.textContent = '✅ Merci ! Votre message a bien été envoyé.';
+                        msg.style.display = 'block';
+                        form.reset();
+                    } else {
+                        // Essaie de lire le JSON de l'erreur (Formspree renvoie parfois des détails)
+                        let json = {};
+                        try { json = await res.json(); } catch(e){ /* ignore */ }
+                        msg.style.color = 'crimson';
+                        msg.textContent = json?.error || '⚠️ Une erreur est survenue. Réessayez.';
+                        msg.style.display = 'block';
+                    }
+                } catch (err) {
+                    msg.style.color = 'crimson';
+                    msg.textContent = '⚠️ Problème réseau. Vérifiez votre connexion.';
+                    msg.style.display = 'block';
+                }
+            });
+        })();
+    </script>
 </body>
 </html>
